@@ -4,18 +4,28 @@ class QuickUnionUF extends UF {
 	}
 
 	public void union(int p, int q) {
-		int pRoot = findRoot(data[p]);
-		data[pRoot] = findRoot(data[q]);
-	}
+    Root pRoot = root(data[p]);
+    Root qRoot = root(data[q]);
+
+    if (pRoot.getSize() < qRoot.getSize()) {
+      data[pRoot.getId()] = qRoot.getId();
+    } else {
+      data[qRoot.getId()] = pRoot.getId();
+    }
+  }
 
 	public boolean connected(int p, int q) {
-		return findRoot(data[p]) == findRoot(data[q]);
-	}
+    return root(data[p]).getId() == root(data[q]).getId();
+  }
 
-	private int findRoot(int node) {
-		if (data[node] == node) {
-			return node;
-		} 
-		return findRoot(data[node]);
-	}
+  private Root root(int id) {
+    return findRoot(id, 1);
+  }
+
+  private Root findRoot(int node, int size) {
+    if (data[node] == node) {
+      return new Root(node, size);
+    }
+    return findRoot(data[node], size + 1);
+  }
 }
