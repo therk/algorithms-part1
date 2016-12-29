@@ -14,7 +14,7 @@ class DynamicConnectivity {
 			System.out.println("Errror: " + e);
 			System.exit(1);
 		}
-		UF uf = new UF(size);
+		UF uf = new QuickFindUF(size);
 		
 		int p=0, q=0;
 		while (true) {
