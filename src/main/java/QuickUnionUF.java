@@ -4,7 +4,8 @@ class QuickUnionUF extends UF {
 	}
 
 	public void union(int p, int q) {
-		data[p] = data[q];
+		int pRoot = findRoot(data[p]);
+		data[pRoot] = findRoot(data[q]);
 	}
 
 	public boolean connected(int p, int q) {
