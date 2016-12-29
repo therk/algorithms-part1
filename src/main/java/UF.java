@@ -13,7 +13,12 @@ public class UF {
 	}
 
 	public void union(int p, int q) {
-		data[p] = data[q];
+		int group = data[p];
+		for (int i = 0; i < data.length; i++) {
+			if (data[i] == group) {
+				data[i] = data[q];
+			}
+		}
 	}
 
 	public boolean connected(int p, int q) {
