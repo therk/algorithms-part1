@@ -33,9 +33,11 @@ class QuickUnionUF extends UF {
   }
 
   int root(int node) {
-    if (data[node] == node) {
-      return node;
+    while (data[node] != node) {
+      // Path compression to switch root as we get to it.
+      data[node] = data[data[node]];
+      node = data[node];
     }
-    return root(data[node]);
+    return node;
   }
 }
