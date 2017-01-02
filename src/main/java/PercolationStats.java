@@ -31,16 +31,16 @@ public class PercolationStats {
     }
 
     int n = Integer.parseInt(args[0]);
-    int trials = Integer.parseInt(args[1]);
-    PercolationStats ps = new PercolationStats(n, trials);
+    int t = Integer.parseInt(args[1]);
+    PercolationStats ps = new PercolationStats(n, t);
     StdOut.println("mean                    = " + ps.mean());
     StdOut.println("stddev                  = " + ps.stddev());
     StdOut.println("95% confidence interval = " + ps.confidenceLo() + ", " + ps.confidenceHi());
 
   }
 
-  private void runExperiments(int n, int trials) {
-    for (int i = 0; i < trials; i++) {
+  private void runExperiments(int n, int t) {
+    for (int i = 0; i < t; i++) {
       int sitesOpen = runExperiment(n);
       experiments[i] = (double) sitesOpen / (n * n);
     }

@@ -8,12 +8,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class PercolationStatsTest {
 
-  private static final double DELTA = 0.3;
+  private static final double DELTA = 0.1;
   PercolationStats ps1;
 
   @Before
   public void before() {
-    ps1 = new PercolationStats(1000, 10);
+    ps1 = new PercolationStats(100, 10);
   }
 
   @Test
@@ -23,7 +23,7 @@ public class PercolationStatsTest {
 
   @Test
   public void stddev() throws Exception {
-    assertEquals(0.2, ps1.stddev(), DELTA);
+    assertEquals(0.002, ps1.stddev(), DELTA);
   }
 
   @Test
