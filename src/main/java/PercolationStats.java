@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
@@ -7,38 +8,35 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
   // perform trials independent experiments on an n-by-n grid
 
-  double[] experiments;
-  int T;
+  private double[] experiments;
+  private int trials;
 
-  public PercolationStats(int n, int trials) {
-    if (n <= 0 || trials <= 0) {
+  public PercolationStats(int n, int t) {
+    if (n <= 0 || t <= 0) {
       throw new java.lang.IllegalArgumentException("n and trials must both be greater then 0");
     }
 
-    experiments = new double[trials];
+    experiments = new double[t];
 
-    T = trials;
+    this.trials = t;
 
-    runExperiments(n, trials);
+    runExperiments(n, t);
   }
 
   public static void main(String[] args) {
     if (args.length != 2) {
-      StdOut.println("Invalid number of arguments. Must have two arguments: \n\tGrid Size (n-by-n) \n\tNumber of Independent computational Experiments");
-      System.exit(1);
+      StdOut.println("Invalid number of arguments. Must have two arguments: \n"
+          + "\tGrid Size (n-by-n) \n\tNumber of Independent computational Experiments");
+      return;
     }
 
-    try {
-      int n = Integer.parseInt(args[0]);
-      int trials = Integer.parseInt(args[1]);
-      PercolationStats ps = new PercolationStats(n, trials);
-      StdOut.println("mean                    = " + ps.mean());
-      StdOut.println("stddev                  = " + ps.stddev());
-      StdOut.println("95% confidence interval = " + ps.confidenceLo() + ", " + ps.confidenceHi());
-    } catch (Exception e) {
-      StdOut.println(e);
-      System.exit(2);
-    }
+    int n = Integer.parseInt(args[0]);
+    int trials = Integer.parseInt(args[1]);
+    PercolationStats ps = new PercolationStats(n, trials);
+    StdOut.println("mean                    = " + ps.mean());
+    StdOut.println("stddev                  = " + ps.stddev());
+    StdOut.println("95% confidence interval = " + ps.confidenceLo() + ", " + ps.confidenceHi());
+
   }
 
   private void runExperiments(int n, int trials) {
@@ -78,7 +76,7 @@ public class PercolationStats {
   }
 
   private double confidence() {
-    return (1.96 * stddev()) / Math.sqrt(T);
+    return (1.96 * stddev()) / Math.sqrt(trials);
   }
 
   // high endpoint of 95% confidence interval

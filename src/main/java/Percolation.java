@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  * Created by therk on 1/1/17.
  */
 public class Percolation {
-  private final int topGroup = 0;
+  private static final int TOP_GROUP = 0;
   private boolean[][] grid;
   private int size;
   private int bottomGroup;
@@ -14,11 +14,11 @@ public class Percolation {
   // create n-by-n grid, with all sites blocked
   public Percolation(int n) {
     if (n <= 0) {
-      throw new IndexOutOfBoundsException("The size should be greater then 0");
+      throw new IllegalArgumentException("The size should be greater then 0");
     }
 
     size = n;
-    bottomGroup = size ^ 2 + 1;
+    bottomGroup = size * size + 1;
 
     qu = new WeightedQuickUnionUF(size * size + 2);
     grid = new boolean[size][size];
@@ -28,7 +28,8 @@ public class Percolation {
   // open site (row, col) if it is not open already
   public void open(int row, int col) {
     if (row <= 0 || row > size || col <= 0 || col > size) {
-      throw new IndexOutOfBoundsException("Invalid row and/or column values. They should be greater then 0 and less then or equal to size of " + size);
+      throw new IndexOutOfBoundsException("Invalid row and/or column values." +
+          "They should be greater then 0 and less then or equal to size of " + size);
     }
     if (isOpen(row, col)) {
       return;
@@ -38,7 +39,7 @@ public class Percolation {
 
     grid[row - 1][col - 1] = true;
     if (row == 1) {
-      qu.union(coordinateToIndex(row, col), topGroup);
+      qu.union(coordinateToIndex(row, col), TOP_GROUP);
     }
     if (row == size) {
       qu.union(coordinateToIndex(row, col), bottomGroup);
@@ -61,7 +62,8 @@ public class Percolation {
   // is site (row, col) open?
   public boolean isOpen(int row, int col) {
     if (row <= 0 || row > size || col <= 0 || col > size) {
-      throw new IndexOutOfBoundsException("Invalid row and/or column values. They should be greater then 0 and less then or equal to size of " + size);
+      throw new IndexOutOfBoundsException("Invalid row and/or column values. "
+          + "They should be greater then 0 and less then or equal to size of " + size);
     }
 
     return grid[row - 1][col - 1];
@@ -70,9 +72,10 @@ public class Percolation {
   // is site (row, col) full?
   public boolean isFull(int row, int col) {
     if (row <= 0 || row > size || col <= 0 || col > size) {
-      throw new IndexOutOfBoundsException("Invalid row and/or column values. They should be greater then 0 and less then or equal to size of " + size);
+      throw new IndexOutOfBoundsException("Invalid row and/or column values. "
+          + "They should be greater then 0 and less then or equal to size of " + size);
     }
-    return qu.connected(topGroup, coordinateToIndex(row, col));
+    return qu.connected(TOP_GROUP, coordinateToIndex(row, col));
   }
 
   // number of open sites
@@ -87,6 +90,6 @@ public class Percolation {
 
   // does the system percolate?
   public boolean percolates() {
-    return qu.connected(topGroup, bottomGroup);
+    return qu.connected(TOP_GROUP, bottomGroup);
   }
 }
