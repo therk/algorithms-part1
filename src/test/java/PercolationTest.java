@@ -1,4 +1,5 @@
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -7,6 +8,8 @@ import static org.junit.Assert.assertEquals;
  * Created by therk on 1/1/17.
  */
 public class PercolationTest {
+  @Rule
+  public MyJUnitWatcher watcher = new MyJUnitWatcher();
   Percolation p2;
 
   @Before
@@ -14,7 +17,7 @@ public class PercolationTest {
     p2 = new Percolation(2);
   }
 
-  @Test(expected = IndexOutOfBoundsException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void constructWithNegativeSize() {
     new Percolation(-1);
   }
@@ -60,7 +63,9 @@ public class PercolationTest {
   public void percolates() throws Exception {
     assertEquals("Should not percolate at the start", false, p2.percolates());
     p2.open(1, 1);
-    assertEquals("Should percolate after the only slot is opened", true, p2.percolates());
+    assertEquals("Should not percolate if only one row is open", false, p2.percolates());
+    p2.open(2, 1);
+    assertEquals("Should percolate after the complete column is open", true, p2.percolates());
   }
 
 }

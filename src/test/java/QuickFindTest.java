@@ -1,10 +1,17 @@
+import org.junit.Rule;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 
 /*
  * @author therk
  */
 public class QuickFindTest {
+
+	@Rule
+	public MyJUnitWatcher watcher = new MyJUnitWatcher();
+
 	@Test public void testGetDataOfSizeTwo() {
 		UF uf = new QuickFindUF(2);
 		assertArrayEquals("Make sure we get correct data back for size 2 UF", uf.getData(), new int[] {0, 1});
@@ -15,6 +22,7 @@ public class QuickFindTest {
 		uf.union(0, 1);
 		assertTrue("Connected 0 and 1 should return 'true'", uf.connected(0, 1));
 	}
+
 	@Test public void testTwoUnionsConnected() {
 		UF uf = new QuickFindUF(3);
 		uf.union(0, 1);
