@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * Created by therk on 1/2/17.
  */
@@ -36,4 +38,53 @@ public class Algs {
     }
     return -1;
   }
+
+  public static double solveArithmeticExpression(String exp) {
+    java.util.Stack<Double> values = new java.util.Stack<>();
+    java.util.Stack<Character> operators = new java.util.Stack<>();
+
+    for (int i = 0; i < exp.length(); i++) {
+      Character c = exp.charAt(i);
+      if (c == '(' || c == ' ') {
+        // skip
+      } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+        operators.push(c);
+      } else if (isNumber(c)) {
+        int numToIndex = i + 1;
+        while (numToIndex < exp.length() && isNumber(exp.charAt(numToIndex))) {
+          numToIndex++;
+        }
+        values.push(Double.parseDouble(exp.substring(i, numToIndex)));
+        i = numToIndex - 1;
+      } else if (c == ')') {
+        solveStackOperation(values, operators);
+      }
+    }
+
+    while (!operators.empty()) {
+      solveStackOperation(values, operators);
+    }
+    return values.pop();
+  }
+
+  private static Boolean isNumber(Character c) {
+    return c.charValue() >= 48 && c.charValue() <= 58;
+  }
+
+  private static void solveStackOperation(Stack<Double> values, Stack<Character> operators) {
+    double left = values.pop();
+    double right = values.pop();
+    Character operation = operators.pop();
+    if (operation == '+') {
+      values.push(left + right);
+    } else if (operation == '*') {
+      values.push(left * right);
+    } else if (operation == '-') {
+      values.push(left - right);
+    } else if (operation == '/') {
+      values.push(left / right);
+    }
+  }
+
+
 }
